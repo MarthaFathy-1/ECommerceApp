@@ -31,7 +31,7 @@ namespace ECommerceAPI.Controllers
         [HttpGet]
         public IActionResult GetCategories()
         {
-            var categories = context.Categories.ToList();
+            var categories = context.Categories.Include(c=>c.Products).ToList();
             List<CategoryWithProducts> categoryDTO = new List<CategoryWithProducts>();
             foreach (var category in categories)
             {

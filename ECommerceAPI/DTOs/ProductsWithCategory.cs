@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ECommerceAPI.Models
+namespace ECommerceAPI.DTOs
 {
-    public class Product
+    public class ProductsWithCategory
     {
         public int Id { get; set; }
 
@@ -14,10 +14,6 @@ namespace ECommerceAPI.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
-        [ForeignKey("Category")]
-        public int CategoryId { get; set; }
-        
-        // Navigation property
-        public Category? Category { get; set; }
+        public string Category { get; set; }
     }
 }
