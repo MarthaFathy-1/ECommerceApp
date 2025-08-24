@@ -47,14 +47,20 @@ namespace ECommerceAPI.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GetCategoryById(int id)
         {
-            var existingCategory = context.Categories.Include(c => c.Products).FirstOrDefault(c => c.Id == id);
+            var existingCategory = context.Categories.Include(c => c.Products)
+                .Select(c => new CategoryWithProducts
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Products = c.Products != null ? c.Products.Select(p => p.Name).ToList() : new List<string>()
+                })
+                .FirstOrDefault(c => c.Id == id);
             var categoryWithProducts = new CategoryWithProducts();
 
             if (existingCategory != null)
             {
                 categoryWithProducts.Id = existingCategory.Id;
                 categoryWithProducts.Name = existingCategory.Name;
-                categoryWithProducts.Products = existingCategory.Products?.Select(p => p.Name).ToList();
                 return Ok(existingCategory);
             }
             return NotFound();
@@ -74,7 +80,7 @@ namespace ECommerceAPI.Controllers
                 {
                     existingCategory.Name = category.Name;
                     context.SaveChanges();
-                    return Ok(category);
+                    return Ok(existingCategory);
                 }
                 return BadRequest(ModelState);
             }

@@ -47,7 +47,15 @@ namespace ECommerceAPI.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GetProductById(int id)
         {
-            var existingProduct = context.Products.Include(p => p.Category).FirstOrDefault(p => p.Id == id);
+            var existingProduct = context.Products.Include(p => p.Category)
+                .Select(c => new ProductsWithCategory
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Price = c.Price,
+                    Category = c.Category != null ? c.Category.Name : null
+                })
+                .FirstOrDefault(p => p.Id == id);
             var productsWithCategory = new ProductsWithCategory();
 
             if (existingProduct != null)
@@ -55,7 +63,6 @@ namespace ECommerceAPI.Controllers
                 productsWithCategory.Id = existingProduct.Id;
                 productsWithCategory.Name = existingProduct.Name;
                 productsWithCategory.Price = existingProduct.Price;
-                productsWithCategory.Category = existingProduct.Category?.Name;
                 return Ok(existingProduct);
             }
             return NotFound();
