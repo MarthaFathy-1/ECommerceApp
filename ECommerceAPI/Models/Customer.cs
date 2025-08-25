@@ -14,6 +14,10 @@ namespace ECommerceAPI.Models
         [MaxLength(50)]
         public string Email { get; set; }
 
+        [Required]
+        [MinLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
+        public string PasswordHash { get; set; }
+
         [Phone]
         [MaxLength(20)]
         public string PhoneNumber { get; set; }

@@ -1,5 +1,6 @@
 ﻿using ECommerceAPI.DTOs;
 using ECommerceAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace ECommerceAPI.Controllers
             this.context = context;
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult CreateOrder(Order order)
         {
@@ -30,6 +32,7 @@ namespace ECommerceAPI.Controllers
             return BadRequest(ModelState);
         }
 
+        [Authorize]
         [HttpGet] 
         public IActionResult GetOrders()
         {
@@ -58,6 +61,7 @@ namespace ECommerceAPI.Controllers
             return Ok(orderDTO);
         }
 
+        [Authorize]
         [HttpGet("{id:int}")]
         public IActionResult GetOrderById(int id)
         {
@@ -88,6 +92,7 @@ namespace ECommerceAPI.Controllers
             return Ok(orderDTO);
         }
 
+        [Authorize]
         [HttpPut("{id:int}")]
         public IActionResult UpdateOrder(int id, Order updatedOrder)
         {
@@ -115,6 +120,7 @@ namespace ECommerceAPI.Controllers
             return BadRequest(ModelState);
         }
 
+        [Authorize]
         [HttpDelete("{id:int}")]
         public IActionResult DeleteOrder(int id)
         {
