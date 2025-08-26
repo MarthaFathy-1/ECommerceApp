@@ -1,5 +1,6 @@
 ﻿using ECommerceAPI.DTOs;
 using ECommerceAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,9 @@ namespace ECommerceAPI.Controllers
         {
             this.context = context;
         }
+
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddCategory(Category category)
         {
             if (ModelState.IsValid)
@@ -45,6 +48,7 @@ namespace ECommerceAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public IActionResult GetCategoryById(int id)
         {
             var existingCategory = context.Categories.Include(c => c.Products)
@@ -67,6 +71,8 @@ namespace ECommerceAPI.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize (Roles = "Admin")]
+
         public IActionResult EditCategory(int id, Category category)
         {
             var existingCategory = context.Categories.FirstOrDefault(c => c.Id == id);
@@ -87,6 +93,7 @@ namespace ECommerceAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize (Roles = "Admin")]
         public IActionResult DeleteCategory(int id)
         {
             var existingCategory = context.Categories.FirstOrDefault(c => c.Id == id);

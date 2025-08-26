@@ -1,5 +1,6 @@
 ﻿using ECommerceAPI.DTOs;
 using ECommerceAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace ECommerceAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult AddOrderItem(OrderItem orderItem)
         {
             if(ModelState.IsValid)
@@ -30,6 +32,7 @@ namespace ECommerceAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetOrderItems()
         {
             var orderItems = context.OrderItems
@@ -48,6 +51,7 @@ namespace ECommerceAPI.Controllers
 
 
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetOrderItemById(int id)
         {
             var orderItem = context.OrderItems
@@ -69,6 +73,7 @@ namespace ECommerceAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public IActionResult UpdateOrderItem(int id, OrderItem updatedOrderItem)
         {
             var existingOrderItem = context.OrderItems.Find(id);
@@ -87,6 +92,7 @@ namespace ECommerceAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult DeleteOrderItem(int id)
         {
             var existingOrderItem = context.OrderItems.Find(id);
